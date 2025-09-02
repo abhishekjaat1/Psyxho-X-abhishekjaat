@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Abhishek Jaat | Portfolio</title>
   <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       height: 100vh;
@@ -22,58 +17,61 @@
       color: #fff;
       text-align: center;
       overflow: hidden;
-      background: radial-gradient(circle at center, #0f0f0f, #000);
+      position: relative;
+      background: linear-gradient(270deg, #0f0f0f, #1a1a2e, #16213e, #0f0f0f);
+      background-size: 800% 800%;
+      animation: gradientMove 15s ease infinite;
     }
 
-    /* Cyberpunk Animated Background */
-    body::before {
-      content: "";
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Neon Particles */
+    .particle {
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(0, 255, 255, 0.05) 0,
-        rgba(0, 255, 255, 0.05) 2px,
-        transparent 2px,
-        transparent 40px
-      );
-      animation: move 10s linear infinite;
-      z-index: -1;
+      border-radius: 50%;
+      background: cyan;
+      box-shadow: 0 0 15px cyan, 0 0 30px cyan;
+      opacity: 0.6;
+      animation: float 10s infinite ease-in-out;
     }
+    .particle:nth-child(1) { width: 15px; height: 15px; top: 20%; left: 10%; animation-duration: 12s; }
+    .particle:nth-child(2) { width: 10px; height: 10px; top: 70%; left: 30%; animation-duration: 8s; }
+    .particle:nth-child(3) { width: 20px; height: 20px; top: 40%; left: 80%; animation-duration: 15s; }
+    .particle:nth-child(4) { width: 12px; height: 12px; top: 85%; left: 60%; animation-duration: 10s; }
 
-    @keyframes move {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(40px, 40px); }
+    @keyframes float {
+      0%   { transform: translateY(0px) translateX(0px); }
+      50%  { transform: translateY(-50px) translateX(30px); }
+      100% { transform: translateY(0px) translateX(0px); }
     }
 
     h1 {
       font-size: 3rem;
       text-shadow: 0 0 10px cyan, 0 0 20px magenta;
+      z-index: 1;
     }
 
-    /* Typing Effect */
+    /* Typing effect container */
     .typing {
-      width: 24ch; /* jitna text hai utna ch (character count) */
+      font-size: 1.2rem;
+      border-right: 3px solid cyan;
       white-space: nowrap;
       overflow: hidden;
-      border-right: 3px solid cyan;
-      font-size: 1.2rem;
-      animation: typing 4s steps(24), blink .7s step-end infinite alternate;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 24ch }
+      width: 0ch;
+      animation: blink .7s step-end infinite alternate;
+      z-index: 1;
+      min-height: 2rem;
     }
 
     @keyframes blink {
       50% { border-color: transparent }
     }
 
-    a {
+    a.btn {
       display: inline-block;
       margin-top: 20px;
       padding: 10px 20px;
@@ -84,19 +82,86 @@
       font-weight: bold;
       box-shadow: 0 0 15px cyan;
       transition: 0.3s;
+      z-index: 1;
     }
-
-    a:hover {
+    a.btn:hover {
       background: magenta;
       color: #fff;
       box-shadow: 0 0 20px magenta;
     }
+
+    a.footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      z-index: 1;
+      text-decoration: none;
+      color: cyan;
+    }
+    a.footer:hover {
+      color: magenta;
+      text-shadow: 0 0 10px magenta;
+    }
   </style>
 </head>
 <body>
+  <!-- Floating neon particles -->
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
   <h1>Abhishek Jaat</h1>
-  <p class="typing">Full Stack Developer | Discord Bot Dev</p>
-  <a href="https://github.com/abhishekjaat1" target="_blank">GitHub Profile</a>
-  <p style="margin-top:20px; font-size:0.9rem; opacity:0.7;">Psycho X Security</p>
+  <p class="typing" id="typing"></p>
+  <a href="https://github.com/abhishekjaat1" target="_blank" class="btn">GitHub Profile</a>
+
+  <!-- Psycho X Security link -->
+  <a href="https://discord.com/oauth2/authorize?client_id=1401453032608239696&permissions=8&integration_type=0&scope=bot" 
+     target="_blank" class="footer">
+     Psycho X Security
+  </a>
+
+  <script>
+    const texts = [
+      "Full Stack Developer",
+      "Minecraft Developer",
+      "Bot Developer (Telegram/Discord)"
+    ];
+
+    let count = 0;
+    let index = 0;
+    let currentText = '';
+    let letter = '';
+    let isDeleting = false;
+    const typingElement = document.getElementById('typing');
+
+    function type() {
+      if (count === texts.length) { count = 0; }
+      currentText = texts[count];
+
+      if (isDeleting) {
+        letter = currentText.slice(0, --index);
+      } else {
+        letter = currentText.slice(0, ++index);
+      }
+
+      typingElement.textContent = letter;
+
+      let speed = isDeleting ? 50 : 100;
+
+      if (!isDeleting && letter.length === currentText.length) {
+        speed = 1500; // wait before deleting
+        isDeleting = true;
+      } else if (isDeleting && letter.length === 0) {
+        isDeleting = false;
+        count++;
+        speed = 500;
+      }
+
+      setTimeout(type, speed);
+    }
+
+    type();
+  </script>
 </body>
 </html>
