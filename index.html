@@ -1,20 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Abhishek Jaat | Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #0f0f0f, #000);
+    }
+
+    /* Cyberpunk Animated Background */
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0, 255, 255, 0.05) 0,
+        rgba(0, 255, 255, 0.05) 2px,
+        transparent 2px,
+        transparent 40px
+      );
+      animation: move 10s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes move {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(40px, 40px); }
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 10px cyan, 0 0 20px magenta;
+    }
+
+    /* Typing Effect */
+    .typing {
+      width: 24ch; /* jitna text hai utna ch (character count) */
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid cyan;
+      font-size: 1.2rem;
+      animation: typing 4s steps(24), blink .7s step-end infinite alternate;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 24ch }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: cyan;
+      color: #000;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      box-shadow: 0 0 15px cyan;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      background: magenta;
+      color: #fff;
+      box-shadow: 0 0 20px magenta;
+    }
+  </style>
 </head>
 <body>
-  <div class="overlay">
-    <div class="container">
-      <h1>👋 Hi, I'm <span class="highlight">Abhishek Jaat</span></h1>
-      <h2>aka <span class="highlight">PsychopathMC</span></h2>
-      <p class="roles">Full Stack Developer | Minecraft Developer | Discord Bot Developer | Backend Developer | Frontend Developer</p>
-      <a class="btn" href="https://github.com/abhishekjaat1" target="_blank">⭐ Visit my GitHub</a>
-      <p class="footer">Psycho X Security</p>
-    </div>
-  </div>
+  <h1>Abhishek Jaat</h1>
+  <p class="typing">Full Stack Developer | Discord Bot Dev</p>
+  <a href="https://github.com/abhishekjaat1" target="_blank">GitHub Profile</a>
+  <p style="margin-top:20px; font-size:0.9rem; opacity:0.7;">Psycho X Security</p>
 </body>
 </html>
