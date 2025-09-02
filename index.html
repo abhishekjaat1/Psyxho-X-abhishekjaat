@@ -55,15 +55,14 @@
       z-index: 1;
     }
 
-    /* Typing effect container */
+    /* Typing effect */
     .typing {
       font-size: 1.2rem;
       border-right: 3px solid cyan;
       white-space: nowrap;
       overflow: hidden;
-      width: 0ch;
-      animation: blink .7s step-end infinite alternate;
-      z-index: 1;
+      display: inline-block;
+      margin-top: 10px;
       min-height: 2rem;
     }
 
@@ -131,7 +130,6 @@
     let count = 0;
     let index = 0;
     let currentText = '';
-    let letter = '';
     let isDeleting = false;
     const typingElement = document.getElementById('typing');
 
@@ -140,19 +138,17 @@
       currentText = texts[count];
 
       if (isDeleting) {
-        letter = currentText.slice(0, --index);
+        typingElement.textContent = currentText.substring(0, index--);
       } else {
-        letter = currentText.slice(0, ++index);
+        typingElement.textContent = currentText.substring(0, index++);
       }
-
-      typingElement.textContent = letter;
 
       let speed = isDeleting ? 50 : 100;
 
-      if (!isDeleting && letter.length === currentText.length) {
-        speed = 1500; // wait before deleting
+      if (!isDeleting && index === currentText.length + 1) {
         isDeleting = true;
-      } else if (isDeleting && letter.length === 0) {
+        speed = 1500;
+      } else if (isDeleting && index === 0) {
         isDeleting = false;
         count++;
         speed = 500;
